@@ -1,0 +1,46 @@
+parameters:
+  name: 'Build_Job'
+  poolName: ''
+  builConfig: ''
+  artifactName: 'JustFunctional'
+jobs:
+  - job: ${{ parameters.name }}
+    pool:
+      name: ${{parameters.poolName}}        
+    steps:
+    
+    - task: DotNetCoreCLI@2
+      displayName: '.Net Core Restore - ${{parameters.builConfig}}'
+      inputs:
+        command: 'restore'
+        arguments: '--configuration ${{parameters.builConfig}}'
+        projects: 'JustFunctional.sln'
+    
+    - task: DotNetCoreCLI@2
+      displayName: '.Net Core Build - ${{parameters.builConfig}}'
+      inputs:
+        command: 'build'
+        arguments: '--configuration ${{parameters.builConfig}}'
+        projects: 'JustFunctional.sln'
+
+    - task: DotNetCoreCLI@2
+      displayName: '.Net Core Run Tests - ${{parameters.builConfig}}'
+      inputs:
+        command: test
+        projects: '**/*Tests/*.csproj'
+        arguments: '--configuration ${{parameters.builConfig}}'
+
+    - task: DotNetCoreCLI@2
+      displayName: '.Net Core Publish - ${{parameters.builConfig}}'
+      inputs:
+        command: publish
+        projects: 'src/JustFunctional.Core/JustFunctional.Core.csproj'
+        publishWebProjects: false
+        arguments: '--configuration ${{parameters.builConfig}} --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}}'
+        zipAfterPublish: True
+        
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact  - ${{parameters.builConfig}}'
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: '${{parameters.artifactName}}'

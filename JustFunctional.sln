@@ -13,6 +13,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JustFunctional.Core.UnitTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JustFunctional.Core.Benchmarks", "Tests\JustFunctional.Core.Benchmarks\JustFunctional.Core.Benchmarks.csproj", "{FF39E714-CC66-4402-94A4-04FD95081402}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{7B53FE09-84CE-4C50-B441-63A192B8C13A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipelines", "Pipelines", "{E42268A6-8DB7-4D72-BEBF-4161DEDEA097}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JustFunctional.Core", "JustFunctional.Core", "{96034A27-6DFC-409D-8510-C082FEC72DD9}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Pipelines\JustFunctional.Core\justFunctional.yml = SolutionItems\Pipelines\JustFunctional.Core\justFunctional.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{1408F225-0A6E-4F35-952F-970C08EF3F8B}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Pipelines\JustFunctional.Core\Templates\build-pipeline.yaml = SolutionItems\Pipelines\JustFunctional.Core\Templates\build-pipeline.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +81,9 @@ Global
 		{B4F281A7-EFB8-4E4F-A88F-E0A5D2BCC010} = {54BED209-29B6-42C3-A68E-DF91CF062330}
 		{A4254FB5-2420-4692-80C8-B195D6FB6D41} = {AA169B51-BB58-46D4-BCF3-E83F3BB31D8A}
 		{FF39E714-CC66-4402-94A4-04FD95081402} = {AA169B51-BB58-46D4-BCF3-E83F3BB31D8A}
+		{E42268A6-8DB7-4D72-BEBF-4161DEDEA097} = {7B53FE09-84CE-4C50-B441-63A192B8C13A}
+		{96034A27-6DFC-409D-8510-C082FEC72DD9} = {E42268A6-8DB7-4D72-BEBF-4161DEDEA097}
+		{1408F225-0A6E-4F35-952F-970C08EF3F8B} = {96034A27-6DFC-409D-8510-C082FEC72DD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B16B1D2C-7528-425D-860C-922FAA74AD78}

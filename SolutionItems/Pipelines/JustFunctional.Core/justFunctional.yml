@@ -1,0 +1,12 @@
+trigger: none
+pr:
+- main
+stages:
+- stage: 'Build_Stage'
+  jobs:
+    - template: Templates\build-pipeline.yaml
+      parameters:
+        name: Build_Job
+        poolName: 'HomeAgentPool'
+        builConfig: 'Release'
+        artifactName: 'SimpleSolutionsSoft.JustFunctional'
