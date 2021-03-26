@@ -31,13 +31,11 @@ jobs:
         arguments: '--configuration ${{parameters.builConfig}}'
 
     - task: DotNetCoreCLI@2
-      displayName: '.Net Core Publish - ${{parameters.builConfig}}'
-      inputs:
-        command: publish
-        projects: 'src/JustFunctional.Core/JustFunctional.Core.csproj'
-        publishWebProjects: false
-        arguments: '--configuration ${{parameters.builConfig}} --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}}'
-        zipAfterPublish: True
+      displayName: 'Net Core Nuget Pack - ${{parameters.builConfig}}' 
+      inputs: 
+        command: 'custom'
+        custom: 'pack'
+        arguments: '--configuration ${{parameters.builConfig}} --no-restore --no-build --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}}'
         
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact  - ${{parameters.builConfig}}'

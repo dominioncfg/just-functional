@@ -1,7 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>Enable</Nullable>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>SimpleSolutionsSoft.JustFunctional.Core</PackageId>
+    <Authors>Jose Carlos Nunez Martinez</Authors>
+    <Company>SimpleSolutionsSoft</Company>
+    <Description>An easy-to-use, customizable math evaluator</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://dev.azure.com/SimpleSolutionsSoft/_git/JustFunctional</PackageProjectUrl>
+    <RepositoryUrl>https://dev.azure.com/SimpleSolutionsSoft/_git/JustFunctional</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageTags>Math;Evaluator</PackageTags>
   </PropertyGroup>
 </Project>
