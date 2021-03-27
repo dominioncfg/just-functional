@@ -14,15 +14,21 @@ jobs:
         runOnce: 
             deploy:
                 steps:
-                - download: current
+                - task: DownloadPipelineArtifact@2
                   displayName: 'Download Artifact  - ${{parameters.artifactName}}'
-                  artifact:  ${{parameters.artifactName}}
+                  inputs:
+                    source: current
+                    path: $(System.ArtifactsDirectory)/${{parameters.artifactName}}
+                    artifact:  ${{parameters.artifactName}}
 
-                - task: DotNetCoreCLI@2 
-                  displayName: 'Net Core Nuget Push - ${{parameters.builConfig}}' 
-                  inputs: 
-                    packagesToPush: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.builConfig}}/*.nupkg;'
-                    command: push 
-                    nuGetFeedType: 'internal'
+                - task: NuGetAuthenticate@0
+                  displayName: 'Authenticate with the Feed'
+
+                - task: NuGetCommand@2
+                  displayName: 'NuGet push'
+                  inputs:
+                    packagesToPush: '$(System.ArtifactsDirectory)/${{parameters.artifactName}}/${{parameters.builConfig}}/*.nupkg'
+                    command: push
+                    feedsToUse: 'select'
                     publishVstsFeed: '${{parameters.feedId}}'
-                    versioningScheme: byBuildNumber
+                    allowPackageConflicts: true
