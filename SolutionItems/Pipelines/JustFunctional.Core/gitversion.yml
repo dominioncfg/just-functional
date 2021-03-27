@@ -4,6 +4,7 @@ branches:
    feature:
        tag: alpha
    main:
-       tag: '' 
+       tag: ''
+       increment: Patch
 ignore:
    sha: []
