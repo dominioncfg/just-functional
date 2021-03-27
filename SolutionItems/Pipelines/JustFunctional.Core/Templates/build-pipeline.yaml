@@ -8,7 +8,26 @@ jobs:
     pool:
       name: ${{parameters.poolName}}        
     steps:
-    
+    - task: gitversion/setup@0
+      displayName: Install Git Version
+      inputs:
+        versionSpec: '5.x'
+
+    - task: gitversion/execute@0
+      displayName: Determine Version
+      inputs:
+        useConfigFile: true
+        configFilePath: 'SolutionItems\Pipelines\JustFunctional.Core\gitversion.yml'
+
+    - task: CmdLine@2
+      displayName: Print Nuget versions
+      inputs:
+        script: | 
+            echo NuGetVersion: $(GitVersion.NuGetVersion)
+            echo NuGetVersionV2: $(GitVersion.NuGetVersionV2)
+            echo NuGetPreReleaseTagV2: $(GitVersion.NuGetPreReleaseTagV2)
+            echo NuGetPreReleaseTag: $(GitVersion.NuGetPreReleaseTag)  
+
     - task: DotNetCoreCLI@2
       displayName: '.Net Core Restore - ${{parameters.builConfig}}'
       inputs:
@@ -35,7 +54,12 @@ jobs:
       inputs: 
         command: 'custom'
         custom: 'pack'
-        arguments: '--configuration ${{parameters.builConfig}} --no-restore --no-build --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}}'
+        arguments: "
+         --configuration ${{parameters.builConfig}} 
+         --no-restore 
+         --no-build 
+         --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}} 
+         -p:PackageVersion=$(GitVersion.NuGetVersion)"
         
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact  - ${{parameters.builConfig}}'

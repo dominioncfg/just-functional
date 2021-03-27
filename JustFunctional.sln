@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipelines", "Pipelines", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JustFunctional.Core", "JustFunctional.Core", "{96034A27-6DFC-409D-8510-C082FEC72DD9}"
 	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Pipelines\JustFunctional.Core\gitversion.yml = SolutionItems\Pipelines\JustFunctional.Core\gitversion.yml
 		SolutionItems\Pipelines\JustFunctional.Core\justFunctional.yml = SolutionItems\Pipelines\JustFunctional.Core\justFunctional.yml
 	EndProjectSection
 EndProject
