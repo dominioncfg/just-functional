@@ -4,12 +4,39 @@ trigger:
         - main
 pr:
 - main
+
+variables:
+  releaseBranchName: 'main'
+  poolName: 'HomeAgentPool'
+  buildConfiguration: 'Release'
+  artifactName: 'SimpleSolutionsSoft.JustFunctional'
+  feedId: ''
+
 stages:
 - stage: 'Build_Stage'
+  displayName: 'Build the Library'
   jobs:
     - template: Templates\build-pipeline.yaml
       parameters:
         name: Build_Job
-        poolName: 'HomeAgentPool'
-        builConfig: 'Release'
-        artifactName: 'SimpleSolutionsSoft.JustFunctional'
+        poolName: $(poolName)
+        builConfig: $(buildConfiguration)
+        artifactName:  $(artifactName)
+- stage: 'Release_Stage'
+  displayName: 'Deploy to feed'
+  dependsOn: Build_Stage
+  condition: |
+    and
+    (
+      succeeded(),
+      eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+    )
+  jobs:
+    - template: Templates\deploy-nuget.yaml
+      parameters:
+        name: Release_Job
+        poolName: $(poolName)
+        builConfig: $(buildConfiguration)
+        artifactName:  $(artifactName)
+        feedId: $(feedId)
+           

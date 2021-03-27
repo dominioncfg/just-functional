@@ -2,7 +2,7 @@ parameters:
   name: 'Build_Job'
   poolName: ''
   builConfig: ''
-  artifactName: 'JustFunctional'
+  artifactName: ''
 jobs:
   - job: ${{ parameters.name }}
     pool:
@@ -60,9 +60,7 @@ jobs:
          --no-build 
          --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}} 
          -p:PackageVersion=$(GitVersion.NuGetVersion)"
-        
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact  - ${{parameters.builConfig}}'
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-        artifactName: '${{parameters.artifactName}}'
+    
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Publish Artifact  - ${{parameters.artifactName}}'
+      artifact: ${{parameters.artifactName}}

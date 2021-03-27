@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{1408F225-0A6E-4F35-952F-970C08EF3F8B}"
 	ProjectSection(SolutionItems) = preProject
 		SolutionItems\Pipelines\JustFunctional.Core\Templates\build-pipeline.yaml = SolutionItems\Pipelines\JustFunctional.Core\Templates\build-pipeline.yaml
+		SolutionItems\Pipelines\JustFunctional.Core\Templates\deploy-nuget.yaml = SolutionItems\Pipelines\JustFunctional.Core\Templates\deploy-nuget.yaml
 	EndProjectSection
 EndProject
 Global

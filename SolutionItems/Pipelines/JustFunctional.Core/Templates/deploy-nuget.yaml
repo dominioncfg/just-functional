@@ -1,0 +1,28 @@
+parameters:
+  name: 'Release Job'
+  poolName: ''
+  builConfig: ''
+  artifactName: ''
+  feedId: ''
+jobs:
+  - deployment: 'release'
+    displayName: '${{parameters.name}}'
+    environment: 'production'
+    pool:
+      name: ${{parameters.poolName}} 
+    strategy:
+        runOnce: 
+            deploy:
+                steps:
+                - download: current
+                  displayName: 'Download Artifact  - ${{parameters.artifactName}}'
+                  artifact:  ${{parameters.artifactName}}
+
+                - task: DotNetCoreCLI@2 
+                  displayName: 'Net Core Nuget Push - ${{parameters.builConfig}}' 
+                  inputs: 
+                    packagesToPush: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.builConfig}}/*.nupkg;'
+                    command: push 
+                    nuGetFeedType: 'internal'
+                    publishVstsFeed: '${{parameters.feedId}}'
+                    versioningScheme: byBuildNumber
