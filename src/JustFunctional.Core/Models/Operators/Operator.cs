@@ -8,7 +8,6 @@ namespace JustFunctional.Core
         public int Precedence { get; }
         public OperatorType Type { get; }
         public Associativity Associativity { get; }
-
         public string GetValue() => RawToken;
 
         public Operator(string name, string rawToken, int precedence, OperatorType type, Associativity associativity)
