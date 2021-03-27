@@ -7,10 +7,10 @@ pr:
 
 variables:
   releaseBranchName: 'main'
-  poolName: 'HomeAgentPool'
+  poolName: '$(runPoolId)'
   buildConfiguration: 'Release'
   artifactName: 'SimpleSolutionsSoft.JustFunctional'
-  feedId: ''
+  nugetFeedId: '$(feedId)'
 
 stages:
 - stage: 'Build_Stage'
@@ -38,5 +38,5 @@ stages:
         poolName: $(poolName)
         builConfig: $(buildConfiguration)
         artifactName:  $(artifactName)
-        feedId: $(feedId)
+        feedId: $(nugetFeedId)
            
