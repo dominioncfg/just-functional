@@ -3,9 +3,12 @@ parameters:
   poolName: ''
   builConfig: ''
   artifactName: ''
-  feedId: ''
+  nugetApiKey: ''
+
 jobs:
   - deployment: 'release'
+    variables:
+        nugetUrl: 'https://api.nuget.org/v3/index.json'
     displayName: '${{parameters.name}}'
     environment: 'production'
     pool:
@@ -20,15 +23,14 @@ jobs:
                     source: current
                     path: $(System.ArtifactsDirectory)/${{parameters.artifactName}}
                     artifact:  ${{parameters.artifactName}}
-
-                - task: NuGetAuthenticate@0
-                  displayName: 'Authenticate with the Feed'
-
-                - task: NuGetCommand@2
+                    
+                - task: DotNetCoreCLI@2
                   displayName: 'NuGet push'
                   inputs:
-                    packagesToPush: '$(System.ArtifactsDirectory)/${{parameters.artifactName}}/${{parameters.builConfig}}/*.nupkg'
-                    command: push
-                    feedsToUse: 'select'
-                    publishVstsFeed: '${{parameters.feedId}}'
-                    allowPackageConflicts: true
+                    command: custom
+                    custom: nuget
+                    arguments: >
+                      push $(System.ArtifactsDirectory)\${{parameters.artifactName}}\${{parameters.builConfig}}\*.nupkg
+                      -s $(nugetUrl)
+                      -k ${{parameters.nugetApiKey}} 
+                      --skip-duplicate              

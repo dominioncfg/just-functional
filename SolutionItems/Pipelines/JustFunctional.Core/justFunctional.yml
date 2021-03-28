@@ -9,8 +9,8 @@ variables:
   releaseBranchName: 'main'
   poolName: '$(runPoolId)'
   buildConfiguration: 'Release'
-  artifactName: 'SimpleSolutionsSoft.JustFunctional'
-  nugetFeedId: '$(feedId)'
+  artifactName: 'JustFunctional'
+  nugetSecretApiKey: '$(NUGETAPIKEY)'
 
 stages:
 - stage: 'Build_Stage'
@@ -24,7 +24,7 @@ stages:
         artifactName:  $(artifactName)
 - stage: 'Release_Stage'
   displayName: 'Deploy to feed'
-  dependsOn: Build_Stage
+  dependsOn: Build_Stage  
   condition: |
     and
     (
@@ -38,5 +38,5 @@ stages:
         poolName: $(poolName)
         builConfig: $(buildConfiguration)
         artifactName:  $(artifactName)
-        feedId: $(nugetFeedId)
+        nugetApiKey: $(nugetSecretApiKey)
            
