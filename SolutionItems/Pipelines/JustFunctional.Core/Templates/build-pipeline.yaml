@@ -39,15 +39,42 @@ jobs:
       displayName: '.Net Core Build - ${{parameters.builConfig}}'
       inputs:
         command: 'build'
-        arguments: '--configuration ${{parameters.builConfig}}'
+        arguments: '--no-restore --configuration ${{parameters.builConfig}}'
         projects: 'JustFunctional.sln'
+    
+    - task: DotNetCoreCLI@2
+      displayName: '.Net Core - Install tools from local manifest'
+      inputs:
+        command: custom
+        custom: tool
+        arguments: 'restore'
 
     - task: DotNetCoreCLI@2
       displayName: '.Net Core Run Tests - ${{parameters.builConfig}}'
       inputs:
-        command: test
+        command: 'test'
+        arguments: '--no-build --configuration $(buildConfiguration) 
+            /p:CollectCoverage=true 
+            /p:CoverletOutputFormat=cobertura 
+            /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+        publishTestResults: true
         projects: '**/*Tests/*.csproj'
-        arguments: '--configuration ${{parameters.builConfig}}'
+    
+    - task: DotNetCoreCLI@2
+      displayName: '.Net Core Tests - Create Code Coverage Report'
+      inputs:
+        command: custom
+        custom: tool
+        arguments: 'run reportgenerator 
+                    -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml 
+                    -targetdir:$(Build.SourcesDirectory)/CodeCoverage 
+                    -reporttypes:HtmlInline_AzurePipelines'
+    
+    - task: PublishCodeCoverageResults@1
+      displayName: '.Net Core Tests - Publish Code Coverage Report'
+      inputs:
+        codeCoverageTool: 'cobertura'
+        summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
     - task: DotNetCoreCLI@2
       displayName: 'Net Core Nuget Pack - ${{parameters.builConfig}}' 
@@ -55,11 +82,11 @@ jobs:
         command: 'custom'
         custom: 'pack'
         arguments: "
-         --configuration ${{parameters.builConfig}} 
-         --no-restore 
-         --no-build 
-         --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}} 
-         -p:PackageVersion=$(GitVersion.NuGetVersion)"
+                    --configuration ${{parameters.builConfig}} 
+                    --no-restore 
+                    --no-build 
+                    --output $(Build.ArtifactStagingDirectory)/${{parameters.builConfig}} 
+                    -p:PackageVersion=$(GitVersion.NuGetVersion)"
     
     - publish: '$(Build.ArtifactStagingDirectory)'
       displayName: 'Publish Artifact  - ${{parameters.artifactName}}'
