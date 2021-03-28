@@ -4,7 +4,7 @@ namespace JustFunctional.Core
     public class CustomizableTokenProviderBuilder : ITokenProviderBuilder
     {
         private readonly List<Operator> _operators = new();
-        private readonly List<Constant> _constants = new();
+        private readonly List<Constant> _constants = new()afadsfas;
 
         public CustomizableTokenProviderBuilder()
         {
