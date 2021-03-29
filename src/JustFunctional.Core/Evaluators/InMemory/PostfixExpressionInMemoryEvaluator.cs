@@ -28,10 +28,6 @@ namespace JustFunctional.Core
             {
                 switch (token)
                 {
-                    case Operand operand:
-                        operands.Push(operand);
-                        break;
-
                     case Operator @operator when @operator.IsOpeningBracket():
                         operators.Push(@operator);
                         break;
