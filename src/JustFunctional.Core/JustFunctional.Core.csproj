@@ -8,11 +8,11 @@
   <PropertyGroup>
     <PackageId>JustFunctional.Core</PackageId>
     <Authors>Jose Carlos Nunez Martinez</Authors>
-    <Company>SimpleSolutionsSoft</Company>
+    <Company>SimpleSolutions</Company>
     <Description>An easy-to-use, customizable math evaluator</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://dev.azure.com/SimpleSolutionsSoft/_git/JustFunctional</PackageProjectUrl>
-    <RepositoryUrl>https://dev.azure.com/SimpleSolutionsSoft/_git/JustFunctional</RepositoryUrl>
+    <PackageProjectUrl>https://dominioncfg.github.io/just-functional-read-the-docs/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dominioncfg/just-functional</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>Math;Evaluator</PackageTags>
   </PropertyGroup>
