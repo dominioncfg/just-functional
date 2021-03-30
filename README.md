@@ -1,7 +1,7 @@
 # Just Functional
 
 ## What is Just Functional 
-Just Functional is an n easy-to-use, customizable math evaluator for you .Net projects.
+Just Functional is an easy-to-use, customizable math evaluator for your .Net projects.
 
 ## Documentation
 You can start using the library with the [Getting Started Guide](https://dominioncfg.github.io/just-functional-read-the-docs/).
