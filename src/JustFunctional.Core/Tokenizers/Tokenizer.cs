@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 namespace JustFunctional.Core
 {
     internal class Tokenizer : ITokenizer
@@ -111,7 +112,9 @@ namespace JustFunctional.Core
                     break;
                 }
             }
-            var tokenValue = decimal.Parse(token);
+            
+            var ci = new CultureInfo("en-US");
+            var tokenValue = decimal.Parse(token, NumberStyles.Float, ci);
             if (negate) tokenValue *= -1;
 
             var operand = new Operand(tokenValue);
