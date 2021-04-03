@@ -6,7 +6,7 @@ Just Functional is an easy-to-use, customizable math evaluator for your .Net pro
 
 ## Documentation
 
-You can start using the library with the [Getting Started Guide](https://dominioncfg.github.io/just-functional-read-the-docs/pages/getting-started.html) or see the [docs](https://dominioncfg.github.io/just-functional-read-the-docs/pages/getting-started.html).
+You can start using the library with the [Getting Started Guide](https://dominioncfg.github.io/just-functional-read-the-docs/pages/getting-started.html) or see the [docs](https://dominioncfg.github.io/just-functional-read-the-docs/).
 
 ## Build Status
 
