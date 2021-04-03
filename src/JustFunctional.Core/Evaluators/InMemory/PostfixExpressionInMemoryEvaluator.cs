@@ -59,7 +59,7 @@ namespace JustFunctional.Core
         }
         private static void EvaluateAllOperatorsUntilNextOpeningBracket(Stack<Operator> operators, Stack<Operand> operands, IEvaluationContext context)
         {
-            while (operators.Peek().RawToken != ConfigurationConstants.AsString.OpeningBracket && operators.Any())
+            while (operators.Any() && operators.Peek().RawToken != ConfigurationConstants.AsString.OpeningBracket)
                 ResolverNextOperatorInQueue(operators, operands, context);
 
             if (!operators.Any())

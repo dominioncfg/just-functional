@@ -49,7 +49,7 @@ namespace JustFunctional.Core
         }
         private static void DequeAllOperatorsUntilNextOpeningBracketAndPutThemIntoOutput(Stack<Operator> remainingOperators, List<IToken> output)
         {
-            while (remainingOperators.Peek().RawToken != ConfigurationConstants.AsString.OpeningBracket && remainingOperators.Any())
+            while (remainingOperators.Any() && remainingOperators.Peek().RawToken != ConfigurationConstants.AsString.OpeningBracket)
             {
                 output.Add(remainingOperators.Pop());
             }

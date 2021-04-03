@@ -32,6 +32,41 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             act.Should().Throw<MissingOperandException>();
         }
 
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
+        public void ThrowsExceptionWhenIncorrectFormulaBeforeAnotherOperator()
+        {
+            string func = "5+";
+            var sut = GivenFunction(func);
+
+            Func<decimal> act = () => sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
+
+            act.Should().Throw<MissingOperandException>();
+        }
+
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
+        public void ThrowsExceptionWhenIncorrectFormulaBeforeAnotherOperator1()
+        {
+            string func = "5X";
+            var sut = GivenFunction(func);
+
+            Func<decimal> act = () => sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
+
+            act.Should().Throw<MissingOperatorException>();
+        }
+
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
+        public void ThrowsExceptionWhenIncorrectFormulaBeforeAnotherOperator2()
+        {
+            string func = "4+5)";
+            var sut = GivenFunction(func);
+
+            Func<decimal> act = () => sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
+
+            act.Should().Throw<MissingOperatorException>();
+        }
 
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
