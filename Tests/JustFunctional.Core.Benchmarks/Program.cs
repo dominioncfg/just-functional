@@ -1,11 +1,8 @@
 ﻿using BenchmarkDotNet.Running;
 namespace JustFunctional.Core.Benchmarks
 {
-    class Program
+    public class Program
     {
-        static void Main()
-        {
-            _ = BenchmarkRunner.Run<DiferentCompilersBenchmarks>();
-        }
+        public static void Main() => _ = BenchmarkRunner.Run<DiferentCompilersBenchmarks>();
     }
 }

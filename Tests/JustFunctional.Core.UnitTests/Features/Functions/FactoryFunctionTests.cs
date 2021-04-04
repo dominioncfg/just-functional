@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using System;
-using Xunit;
 using System.Collections.Generic;
+using Xunit;
 
 namespace JustFunctional.Core.UnitTests.Features.Functions
 {
@@ -142,7 +142,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
                       option.WithCustomTokenProvider(provider =>
                         provider
                             .ClearConstants()
-                            .WithConstant(new Constant("c",1))
+                            .WithConstant(new Constant("c", 1))
                         )
                      );
 

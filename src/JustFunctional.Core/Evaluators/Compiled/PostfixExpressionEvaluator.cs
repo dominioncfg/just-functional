@@ -20,14 +20,14 @@ namespace JustFunctional.Core
                         break;
                     default:
                         throw new SyntaxErrorInExpressionException("The compiler has returned an invalid token");
-                }             
-            }           
+                }
+            }
             decimal value = DequeeAndEvaluateLastOperand(operands, context);
             return value;
         }
         private static void DequeeOperandsAndEvaluateOperator(Stack<Operand> operands, Operator @operator, IEvaluationContext context)
         {
-            List<Operand> operandsForOperator = DequeAndGetOperandsForOperator(operands, @operator);
+            var operandsForOperator = DequeAndGetOperandsForOperator(operands, @operator);
             decimal result = @operator.Calculate(operandsForOperator, context);
             operands.Push(new Operand(result));
         }
@@ -35,8 +35,8 @@ namespace JustFunctional.Core
         {
             var operandsNeededToForOperator = new List<Operand>();
 
-            var neededOperandsCount = (int)@operator.Type;
-            while (operands.TryPeek(out Operand operand) && operandsNeededToForOperator.Count < neededOperandsCount)
+            int neededOperandsCount = (int)@operator.Type;
+            while (operands.TryPeek(out var operand) && operandsNeededToForOperator.Count < neededOperandsCount)
             {
                 operands.Pop();
                 operandsNeededToForOperator.Insert(0, operand);
@@ -44,7 +44,7 @@ namespace JustFunctional.Core
 
             if (operandsNeededToForOperator.Count < neededOperandsCount)
             {
-                var tokenOperands = string.Join(',', operandsNeededToForOperator.Select(x => x.RawToken));
+                string tokenOperands = string.Join(',', operandsNeededToForOperator.Select(x => x.RawToken));
                 string errorMessage = $"Could not resolve operator '{@operator.RawToken}' because he needs {neededOperandsCount} but found only {operandsNeededToForOperator.Count}.";
                 errorMessage += $"Operands found were: {tokenOperands}";
                 throw new MissingOperandException();
@@ -55,12 +55,12 @@ namespace JustFunctional.Core
         {
             if (operands.Count > 1)
             {
-                var tokenOperands = string.Join(',', operands.Select(x => x.RawToken));
+                string tokenOperands = string.Join(',', operands.Select(x => x.RawToken));
                 throw new MissingOperatorException($"Missing operator to resolve this operands: {tokenOperands}.");
             }
 
             var lastOperand = operands.Pop();
-            var value = lastOperand is Variable ? context.ResolveVariable(lastOperand.RawToken) : lastOperand.Value;
+            decimal value = lastOperand is Variable ? context.ResolveVariable(lastOperand.RawToken) : lastOperand.Value;
             return value;
         }
     }

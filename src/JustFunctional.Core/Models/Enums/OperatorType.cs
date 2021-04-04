@@ -2,7 +2,7 @@
 {
     public enum OperatorType
     {
-        Unary = 1, 
+        Unary = 1,
         Binary = 2,
     }
 }

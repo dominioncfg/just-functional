@@ -73,11 +73,11 @@ namespace JustFunctional.Core.Benchmarks
 
         private void EvaluateFunctionTPLAsync(Function function)
         {
-            ParallelOptions parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = 6;
-            Parallel.ForEach(Enumerable.Range(1, NumberOfTimesToEvaluate), parallelOptions, (i) =>
-            {
-                var temp = function.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = i }));
+            var parallelOptions = new ParallelOptions {
+                MaxDegreeOfParallelism = 6
+            };
+            _ = Parallel.ForEach(Enumerable.Range(1, NumberOfTimesToEvaluate), parallelOptions, (i) => {
+                decimal temp = function.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = i }));
             });
         }
 
@@ -89,9 +89,9 @@ namespace JustFunctional.Core.Benchmarks
 
         private decimal EvaluateInRange(Function func)
         {
-            for (var i = 1; i <= NumberOfTimesToEvaluate; i++)
+            for (int i = 1; i <= NumberOfTimesToEvaluate; i++)
             {
-                var temp = func.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = i }));
+                _ = func.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = i }));
             }
             return 0;
         }

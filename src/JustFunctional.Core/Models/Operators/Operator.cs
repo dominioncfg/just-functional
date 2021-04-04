@@ -20,9 +20,6 @@ namespace JustFunctional.Core
         }
 
         public abstract decimal Calculate(List<Operand> operands, IEvaluationContext context);
-        protected decimal ResolveIfVariableOperand(Operand operand, IEvaluationContext context)
-        {
-            return operand is Variable ? context.ResolveVariable(operand.RawToken) : operand.Value;
-        }
+        protected decimal ResolveIfVariableOperand(Operand operand, IEvaluationContext context) => operand is Variable ? context.ResolveVariable(operand.RawToken) : operand.Value;
     }
 }

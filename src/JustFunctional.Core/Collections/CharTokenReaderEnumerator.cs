@@ -14,10 +14,7 @@ namespace JustFunctional.Core
             _currentCharIndex = -1;
             _expression = new ReadOnlyCollection<char>(expression.ToCharArray());
         }
-        public void Reset()
-        {
-            _currentCharIndex = -1;
-        }
+        public void Reset() => _currentCharIndex = -1;
         public bool MoveNext()
         {
             if (_expression.Count <= _currentCharIndex + 1) return false;

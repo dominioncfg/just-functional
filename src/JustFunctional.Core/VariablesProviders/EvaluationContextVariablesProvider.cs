@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 namespace JustFunctional.Core
 {
     public class EvaluationContextVariablesProvider : IVariablesProvider
@@ -8,11 +8,8 @@ namespace JustFunctional.Core
 
         public EvaluationContextVariablesProvider(IEvaluationContext context)
         {
-            this._context = context;
+            _context = context;
         }
-        public IEnumerable<Variable> GetRegisteredVariables()
-        {
-            return _context.GetAllVariablesNames().Select(varName=> new Variable(varName));
-        }
+        public IEnumerable<Variable> GetRegisteredVariables() => _context.GetAllVariablesNames().Select(varName => new Variable(varName));
     }
 }

@@ -64,13 +64,13 @@ namespace JustFunctional.Core
 
                 if (nextToken is null) continue;
 
-                var thereIsOperatorAfterMinusUnary = nextToken is Operator && isMinusUnary;
+                bool thereIsOperatorAfterMinusUnary = nextToken is Operator && isMinusUnary;
                 if (thereIsOperatorAfterMinusUnary)
                 {
                     throw new MissingOperandException($"Expected operand after '{ConfigurationConstants.AsString.MinusUnary}' found '{nextToken.GetValue()}'.");
                 }
 
-                var thereIsAVaribaleAfterMinusUnary = nextToken is Variable && isMinusUnary;
+                bool thereIsAVaribaleAfterMinusUnary = nextToken is Variable && isMinusUnary;
                 if (thereIsAVaribaleAfterMinusUnary)
                 {
                     throw new NotSupportedException($"A variable after  '{ConfigurationConstants.AsString.MinusUnary}' is not supported in this version.");
@@ -86,14 +86,14 @@ namespace JustFunctional.Core
 
         private static bool IsMinusUnary(char currentChar, IToken? prevToken)
         {
-            var isMinusSign = currentChar == ConfigurationConstants.AsChar.MinusUnary;
+            bool isMinusSign = currentChar == ConfigurationConstants.AsChar.MinusUnary;
             if (!isMinusSign) return false;
 
-            var isAtTheBegining = prevToken is null;
+            bool isAtTheBegining = prevToken is null;
             if (isAtTheBegining) return true;
 
             var @operator = prevToken as Operator;
-            var isAnyOperatorExceptClosingBracket = @operator is not null &&
+            bool isAnyOperatorExceptClosingBracket = @operator is not null &&
                                                         @operator.RawToken != ConfigurationConstants.AsString.ClosingBracket;
             return isAnyOperatorExceptClosingBracket;
         }
@@ -112,9 +112,9 @@ namespace JustFunctional.Core
                     break;
                 }
             }
-            
+
             var ci = new CultureInfo("en-US");
-            var tokenValue = decimal.Parse(token, NumberStyles.Float, ci);
+            decimal tokenValue = decimal.Parse(token, NumberStyles.Float, ci);
             if (negate) tokenValue *= -1;
 
             var operand = new Operand(tokenValue);

@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 namespace JustFunctional.Core
 {
     public class PredefinedVariablesProvider : IVariablesProvider
@@ -8,7 +8,7 @@ namespace JustFunctional.Core
 
         public PredefinedVariablesProvider(IEnumerable<string> variables)
         {
-            this._variables = variables.Select(x => new Variable(x)).ToList();
+            _variables = variables.Select(x => new Variable(x)).ToList();
         }
         public IEnumerable<Variable> GetRegisteredVariables() => _variables;
     }
