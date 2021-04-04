@@ -12,9 +12,6 @@ namespace JustFunctional.Core
                                         )
         { }
 
-        public override decimal Calculate(List<Operand> operands, IEvaluationContext context)
-        {
-            return ResolveIfVariableOperand(operands[0], context) * ResolveIfVariableOperand(operands[1], context);
-        }
+        public override decimal Calculate(List<Operand> operands, IEvaluationContext context) => ResolveIfVariableOperand(operands[0], context) * ResolveIfVariableOperand(operands[1], context);
     }
 }

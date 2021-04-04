@@ -7,11 +7,8 @@ namespace JustFunctional.Core
 
         public DelegateFunctionFactory(Func<string, Function> setupAction)
         {
-            this._setupAction = setupAction;
+            _setupAction = setupAction;
         }
-        public Function Create(string expression)
-        {
-            return _setupAction(expression);
-        }
+        public Function Create(string expression) => _setupAction(expression);
     }
 }

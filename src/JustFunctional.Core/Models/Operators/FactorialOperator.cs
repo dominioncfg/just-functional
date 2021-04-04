@@ -11,9 +11,6 @@ namespace JustFunctional.Core
                                             associativity: Associativity.Right
                                          )
         { }
-        public override decimal Calculate(List<Operand> operands, IEvaluationContext context)
-        {
-            return Maths.Factorial((uint)ResolveIfVariableOperand(operands[0], context));
-        }
+        public override decimal Calculate(List<Operand> operands, IEvaluationContext context) => Maths.Factorial((uint)ResolveIfVariableOperand(operands[0], context));
     }
 }

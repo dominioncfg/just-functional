@@ -2,7 +2,7 @@
 {
     public enum Associativity
     {
-        Left = 1,  
+        Left = 1,
         Right = 2,
     }
 }

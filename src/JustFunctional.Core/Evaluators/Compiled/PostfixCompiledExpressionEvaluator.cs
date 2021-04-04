@@ -32,14 +32,11 @@ namespace JustFunctional.Core
             }
         }
 
-        public async Task<decimal> EvaluateAsync(IEvaluationContext context, IVariablesProvider variablesProvider)
-        {
-            return await Task.Run(() => Evaluate(context, variablesProvider)).ConfigureAwait(false);
-        }
+        public async Task<decimal> EvaluateAsync(IEvaluationContext context, IVariablesProvider variablesProvider) => await Task.Run(() => Evaluate(context, variablesProvider)).ConfigureAwait(false);
         public decimal Evaluate(IEvaluationContext context, IVariablesProvider variablesProvider)
         {
             if (!IsCompiled) Compile(variablesProvider);
             return _evaluator.Evaluate(_compiledExpression, context);
-        }      
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace JustFunctional.Core
         private readonly ITokenizer _tokenizer;
         public PostfixExpressionCompiler(string expression, ITokensProvider tokensProvider, IVariablesProvider variablesProvider)
         {
-            _tokenizer = new Tokenizer(expression,tokensProvider, variablesProvider);
+            _tokenizer = new Tokenizer(expression, tokensProvider, variablesProvider);
         }
         public List<IToken> CompileExpression()
         {
@@ -61,11 +61,11 @@ namespace JustFunctional.Core
         }
         private static void DequeAnyOperatorUntilOneWithSamePrecedenceIsFoundAndPutThemIntoOutput(Stack<Operator> remainingOperators, Operator currentOperator, List<IToken> output)
         {
-            while (remainingOperators.TryPeek(out Operator prevOperator))
+            while (remainingOperators.TryPeek(out var prevOperator))
             {
-                var prevOperatorHasHigherPrecedence = prevOperator.Precedence > currentOperator.Precedence;
-                var prevOperatorHasEqualPrecedenceButLeftAssociativity = prevOperator.Precedence == currentOperator.Precedence && prevOperator.Associativity != Associativity.Right;
-                var needsToBeResolved = prevOperatorHasHigherPrecedence || prevOperatorHasEqualPrecedenceButLeftAssociativity;
+                bool prevOperatorHasHigherPrecedence = prevOperator.Precedence > currentOperator.Precedence;
+                bool prevOperatorHasEqualPrecedenceButLeftAssociativity = prevOperator.Precedence == currentOperator.Precedence && prevOperator.Associativity != Associativity.Right;
+                bool needsToBeResolved = prevOperatorHasHigherPrecedence || prevOperatorHasEqualPrecedenceButLeftAssociativity;
 
                 if (!needsToBeResolved) break;
 

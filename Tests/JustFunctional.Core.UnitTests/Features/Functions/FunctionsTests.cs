@@ -6,7 +6,7 @@ using Xunit;
 
 namespace JustFunctional.Core.UnitTests.Features.Functions
 {
-    public abstract class FunctionsTests: FunctionsTestBase
+    public abstract class FunctionsTests : FunctionsTestBase
     {
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
