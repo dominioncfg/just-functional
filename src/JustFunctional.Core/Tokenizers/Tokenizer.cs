@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 namespace JustFunctional.Core
 {
@@ -23,10 +24,12 @@ namespace JustFunctional.Core
 
         private bool MoveNext() => _expressionEnumerator.MoveNext();
         public void Reset() => _expressionEnumerator.Reset();
-        private Operator TryGetRegisteredOperator(string token) => _registeredOperators.GetOperatorOrDefault(token);
-        private Operand TryGetRegisteredOperand(string token) => _registeredConstants.GetOperandOrDefault(token);
-        private Operand TryGetRegisteredVariable(string token) => _registeredVariables.GetOperandOrDefault(token);
 
+        private IToken? GetNextTokenOrDefault(string token)
+        {
+            var result = _registeredOperators.GetOperatorOrDefault(token) ?? _registeredConstants.GetOperandOrDefault(token) ?? (_registeredVariables.GetOperandOrDefault(token) as IToken);
+            return result;
+        }
         public IToken GetNextToken()
         {
             bool eof = true;
@@ -42,15 +45,15 @@ namespace JustFunctional.Core
                 return ConfigurationConstants.Tokens.EndOfFile;
             }
 
-            bool isMinusUnary = IsMinusUnary(CurrentChar, _lastToken);
-            if (isMinusUnary)
+            bool isUnaryOperator = IsUnaryOperator(CurrentChar, _lastToken);
+            if (isUnaryOperator)
             {
-                MoveNext();
+                return GetUnaryOperator(CurrentChar);
             }
 
             if (CurrentChar.IsADigit())
             {
-                var operand = GetNextNumberAndMoveIterator(_expressionEnumerator, isMinusUnary);
+                var operand = GetNextNumberAndMoveIterator(_expressionEnumerator);
                 _lastToken = operand;
                 return operand;
             }
@@ -60,21 +63,9 @@ namespace JustFunctional.Core
             do
             {
                 token += CurrentChar.ToString();
-                var nextToken = TryGetRegisteredOperator(token) ?? TryGetRegisteredOperand(token) ?? (IToken)TryGetRegisteredVariable(token);
+                var nextToken = GetNextTokenOrDefault(token);
 
                 if (nextToken is null) continue;
-
-                bool thereIsOperatorAfterMinusUnary = nextToken is Operator && isMinusUnary;
-                if (thereIsOperatorAfterMinusUnary)
-                {
-                    throw new MissingOperandException($"Expected operand after '{ConfigurationConstants.AsString.MinusUnary}' found '{nextToken.GetValue()}'.");
-                }
-
-                bool thereIsAVaribaleAfterMinusUnary = nextToken is Variable && isMinusUnary;
-                if (thereIsAVaribaleAfterMinusUnary)
-                {
-                    throw new NotSupportedException($"A variable after  '{ConfigurationConstants.AsString.MinusUnary}' is not supported in this version.");
-                }
 
                 _lastToken = nextToken;
                 return nextToken;
@@ -84,20 +75,28 @@ namespace JustFunctional.Core
             throw new SyntaxErrorInExpressionException($"Syntax error after '{_lastToken?.GetValue()}', at position {_expressionEnumerator.CurrentIndex + 1}. Expected operator/operand.");
         }
 
-        private static bool IsMinusUnary(char currentChar, IToken? prevToken)
+        private static bool IsUnaryOperator(char currentChar, IToken? prevToken)
         {
-            bool isMinusSign = currentChar == ConfigurationConstants.AsChar.MinusUnary;
+            bool isMinusSign = currentChar == ConfigurationConstants.AsChar.MinusUnary || currentChar == ConfigurationConstants.AsChar.PlusUnary;
             if (!isMinusSign) return false;
 
             bool isAtTheBegining = prevToken is null;
             if (isAtTheBegining) return true;
 
-            var @operator = prevToken as Operator;
-            bool isAnyOperatorExceptClosingBracket = @operator is not null &&
-                                                        @operator.RawToken != ConfigurationConstants.AsString.ClosingBracket;
+            bool isAnyOperatorExceptClosingBracket = prevToken is Operator @operator && !@operator.IsClosingBracket();
             return isAnyOperatorExceptClosingBracket;
         }
-        private static Operand GetNextNumberAndMoveIterator(ITokenReader<char> iterator, bool negate = false)
+
+        private static Operator GetUnaryOperator(char currentChar)
+        {
+            return currentChar switch {
+                ConfigurationConstants.AsChar.MinusUnary => ConfigurationConstants.Operators.MinusUnary,
+                ConfigurationConstants.AsChar.PlusUnary => ConfigurationConstants.Operators.PlusUnary,
+                _ => throw new ArgumentException($"'{currentChar}' is not allowed."),
+            };
+        }
+
+        private static Operand GetNextNumberAndMoveIterator(ITokenReader<char> iterator)
         {
             string token = iterator.Current.ToString();
             while (iterator.MoveNext())
@@ -115,7 +114,6 @@ namespace JustFunctional.Core
 
             var ci = new CultureInfo("en-US");
             decimal tokenValue = decimal.Parse(token, NumberStyles.Float, ci);
-            if (negate) tokenValue *= -1;
 
             var operand = new Operand(tokenValue);
             return operand;

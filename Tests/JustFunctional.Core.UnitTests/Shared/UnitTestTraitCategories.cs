@@ -6,6 +6,7 @@
         {
             public const string CATEGORY_NAME = "Functions";
             public const string FUNCTION_EVALUATE = "Evaluate";
+            public const string FUNCTION_UNARY_OPERATORS = "Unary_Operators";
             public const string FUNCTION_EXCEPTIONS = "Exceptions";
             public const string FUNCTION_ASYNC = "Async";
             public const string FUNCTION_FACTORY = "Factory";
