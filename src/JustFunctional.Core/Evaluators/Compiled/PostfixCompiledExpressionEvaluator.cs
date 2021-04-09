@@ -8,14 +8,16 @@ namespace JustFunctional.Core
         private readonly PostfixExpressionEvaluator _evaluator;
         private readonly string _expression;
         private readonly ITokensProvider _tokensProvider;
+        private readonly ICultureProvider _cultureProvider;
         private readonly object _compileLock = new();
 
         private bool IsCompiled { get; set; }
 
-        public PostfixCompiledExpressionEvaluator(string expression, ITokensProvider tokensProvider)
+        public PostfixCompiledExpressionEvaluator(string expression, ITokensProvider tokensProvider,ICultureProvider cultureProvider)
         {
             _expression = expression;
             _tokensProvider = tokensProvider;
+            _cultureProvider = cultureProvider;
             _evaluator = new PostfixExpressionEvaluator();
             _compiledExpression = new List<IToken>();
         }
@@ -26,7 +28,7 @@ namespace JustFunctional.Core
             lock (_compileLock)
             {
                 if (IsCompiled) return;
-                var compiler = new PostfixExpressionCompiler(_expression, _tokensProvider, variablesProvider);
+                var compiler = new PostfixExpressionCompiler(_expression, _tokensProvider, variablesProvider, _cultureProvider);
                 _compiledExpression = compiler.CompileExpression();
                 IsCompiled = true;
             }

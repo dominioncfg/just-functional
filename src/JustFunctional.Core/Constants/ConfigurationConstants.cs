@@ -5,7 +5,6 @@ namespace JustFunctional.Core
     public static class ConfigurationConstants
     {
         public const int MaxLengthForOperatorsAndConstants = 4;
-        public const char DecimalPlacesSeparator = '.';
 
         public static class AsString
         {
@@ -64,10 +63,10 @@ namespace JustFunctional.Core
         {
             public static readonly FunctionOptions CompiledDefault = new(new CompiledExpressionEvaluatorFactory(),
                                                                             new DefaultTokensProvider(),
-                                                                            null);
+                                                                            null,new CultureProvider());
             public static readonly FunctionOptions JustInTimeDefault = new(new CompiledExpressionEvaluatorFactory(),
                                                                                 new DefaultTokensProvider(),
-                                                                                null);
+                                                                                null, new CultureProvider());
         }
     }
 }

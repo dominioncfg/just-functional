@@ -3,18 +3,23 @@ using System.Globalization;
 using System.Linq;
 namespace JustFunctional.Core
 {
-    internal class Tokenizer : ITokenizer
+    public class Tokenizer : ITokenizer
     {
         private readonly OperatorReadOnlyCollection _registeredOperators;
         private readonly OperandReadOnlyCollection _registeredConstants;
         private readonly OperandReadOnlyCollection _registeredVariables;
         private readonly ITokenReader<char> _expressionEnumerator;
+        private readonly CultureInfo _culture;
 
         private char CurrentChar => _expressionEnumerator.Current;
         private IToken? _lastToken;
 
-        public Tokenizer(string expression, ITokensProvider tokensProvider, IVariablesProvider variablesProvider)
+        public Tokenizer(string expression, TokenizerOptions options)
         {
+            _culture = options.CultureProvider.GetCulture();
+            var tokensProvider = options.TokensProvider;
+            var variablesProvider = options.VariablesProvider;
+
             var allOperators = ConfigurationConstants.Operators.IntrinsicOperators.Concat(tokensProvider.GetAvailableOperators());
             _expressionEnumerator = new CharTokenReaderEnumerator(expression);
             _registeredOperators = new OperatorReadOnlyCollection(allOperators);
@@ -53,7 +58,7 @@ namespace JustFunctional.Core
 
             if (CurrentChar.IsADigit())
             {
-                var operand = GetNextNumberAndMoveIterator(_expressionEnumerator);
+                var operand = GetNextNumberAndMoveIterator(_expressionEnumerator, _culture);
                 _lastToken = operand;
                 return operand;
             }
@@ -96,14 +101,17 @@ namespace JustFunctional.Core
             };
         }
 
-        private static Operand GetNextNumberAndMoveIterator(ITokenReader<char> iterator)
+        private static Operand GetNextNumberAndMoveIterator(ITokenReader<char> iterator, CultureInfo culture)
         {
             string token = iterator.Current.ToString();
+
+            char decimalSeparator = culture.NumberFormat.NumberDecimalSeparator[0];
             while (iterator.MoveNext())
             {
-                if (iterator.Current.IsADigit() || iterator.Current == ConfigurationConstants.DecimalPlacesSeparator)
+                var current = iterator.Current;
+                if (current.IsADigit() || current == decimalSeparator)
                 {
-                    token += iterator.Current.ToString();
+                    token += current.ToString();
                 }
                 else
                 {
@@ -112,8 +120,7 @@ namespace JustFunctional.Core
                 }
             }
 
-            var ci = new CultureInfo("en-US");
-            decimal tokenValue = decimal.Parse(token, NumberStyles.Float, ci);
+            decimal tokenValue = decimal.Parse(token, NumberStyles.Float, culture);
 
             var operand = new Operand(tokenValue);
             return operand;

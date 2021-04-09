@@ -7,16 +7,18 @@ namespace JustFunctional.Core
     {
         private readonly string _expression;
         private readonly ITokensProvider _tokensProvider;
+        private readonly ICultureProvider _cultureProvider;
 
-        public PostfixExpressionInMemoryEvaluator(string expression, ITokensProvider tokensProvider)
+        public PostfixExpressionInMemoryEvaluator(string expression, ITokensProvider tokensProvider, ICultureProvider cultureProvider)
         {
             _expression = expression;
             _tokensProvider = tokensProvider;
+            _cultureProvider = cultureProvider;
         }
         public async Task<decimal> EvaluateAsync(IEvaluationContext context, IVariablesProvider variablesProvider) => await Task.Run(() => Evaluate(context, variablesProvider)).ConfigureAwait(false);
         public decimal Evaluate(IEvaluationContext context, IVariablesProvider variablesProvider)
         {
-            var tokenizer = new Tokenizer(_expression, _tokensProvider, variablesProvider);
+            var tokenizer = new Tokenizer(_expression, new TokenizerOptions(_tokensProvider, variablesProvider, _cultureProvider));
             var operands = new Stack<Operand>();
             var operators = new Stack<Operator>();
 

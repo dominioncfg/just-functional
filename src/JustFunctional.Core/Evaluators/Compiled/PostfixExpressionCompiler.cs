@@ -5,9 +5,9 @@ namespace JustFunctional.Core
     internal class PostfixExpressionCompiler
     {
         private readonly ITokenizer _tokenizer;
-        public PostfixExpressionCompiler(string expression, ITokensProvider tokensProvider, IVariablesProvider variablesProvider)
+        public PostfixExpressionCompiler(string expression, ITokensProvider tokensProvider, IVariablesProvider variablesProvider, ICultureProvider cultureProvider)
         {
-            _tokenizer = new Tokenizer(expression, tokensProvider, variablesProvider);
+            _tokenizer = new Tokenizer(expression, new TokenizerOptions(tokensProvider, variablesProvider, cultureProvider));
         }
         public List<IToken> CompileExpression()
         {
