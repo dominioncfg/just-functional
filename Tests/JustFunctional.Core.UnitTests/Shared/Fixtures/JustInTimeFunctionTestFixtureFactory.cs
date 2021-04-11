@@ -6,7 +6,8 @@
             options
                 .WithDefaultsTokenProvider()
                 .WithEvaluationContextVariablesProvider()
-                .WithJustInTimeEvalutator();
+                .WithJustInTimeEvalutator()
+                .WithSystemProvidedCulture();
         });
         public static Function GivenFunction(string expression) => _factory.Create(expression);
     }

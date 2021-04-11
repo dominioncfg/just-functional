@@ -1,12 +1,19 @@
-﻿using System.Collections.Generic;
-namespace JustFunctional.Core
+﻿namespace JustFunctional.Core
 {
     public static class CharsExtensions
     {
-        private static readonly HashSet<char> _digits = new() { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
-        public static bool IsADigit(this char c) => _digits.Contains(c);
+        public static bool IsDigit(this char c) => char.IsDigit(c);
 
         public static bool IsSpace(this char c) => c.Equals(ConfigurationConstants.AsChar.Space);
+
+        public static bool IsIdentifierStartCharacter(this char c)
+        {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '@' || char.IsLetter(c);
+        }
+
+        public static bool IsIdentifierPartCharacter(this char c)
+        {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || (c >= '0' && c <= '9') || char.IsLetter(c);
+        }
     }
 }

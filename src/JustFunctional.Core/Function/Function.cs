@@ -14,7 +14,7 @@ namespace JustFunctional.Core
             var useTokensProvider = options.TokensProvider;
             Expression = expression;
             _variablesProvider = options.VariablesProvider;
-            _evaluator = options.EvaluatorProvider.CreateFor(expression, useTokensProvider);
+            _evaluator = options.EvaluatorProvider.CreateFor(expression, new EvaluatorOptions(useTokensProvider,options.CultureProvider));
         }
 
         public override string ToString() => Expression;

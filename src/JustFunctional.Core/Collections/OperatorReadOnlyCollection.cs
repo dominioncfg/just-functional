@@ -10,9 +10,9 @@ namespace JustFunctional.Core
         {
             _operators = new ReadOnlyDictionary<string, Operator>(operators.ToDictionary(o => o.RawToken, o => o));
         }
-        public Operator GetOperatorOrDefault(string token)
+        public Operator? GetOperatorOrDefault(string token)
         {
-            _operators.TryGetValue(token, out Operator o);
+            _operators.TryGetValue(token, out var o);
             return o;
         }
     }

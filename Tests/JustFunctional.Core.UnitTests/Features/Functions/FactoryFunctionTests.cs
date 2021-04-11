@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace JustFunctional.Core.UnitTests.Features.Functions
@@ -166,6 +168,24 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
                      );
 
             action.Should().Throw<ArgumentException>();
+        }
+
+        [Theory]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_FACTORY)]
+        [InlineData("es-ES", ",")]
+        [InlineData("en-US", ".")]
+        public async Task CanEvaluateWithDifferentsCultures(string culture, string separator)
+        {
+            string func = $"(X*2)+2{separator}1";
+            var result = 0M;
+            await Task.Run(() => {
+                CultureInfo.CurrentCulture = new CultureInfo(culture);
+                var sut = CreateWithSettings(func, options => options.WithSystemProvidedCulture());
+
+                result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
+            });
+
+            result.Should().Be(18.1M);
         }
 
         private Function CreateWithSettings(string expression, Action<FunctionOptionsBuilder> setupAction)

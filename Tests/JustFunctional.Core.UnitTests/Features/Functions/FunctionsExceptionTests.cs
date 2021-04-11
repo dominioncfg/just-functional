@@ -80,17 +80,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             act.Should().Throw<SyntaxErrorInExpressionException>();
         }
 
-        [Fact]
-        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
-        public void ThrowsExceptionWhenVariableIsAfterMinusUnary()
-        {
-            string func = "-X";
-            var sut = GivenFunction(func);
-
-            Func<decimal> act = () => sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
-
-            act.Should().Throw<NotSupportedException>();
-        }
+       
     }
     public class CompiledFunctionsExceptionTests : FunctionsExceptionTests
     {

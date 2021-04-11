@@ -6,7 +6,8 @@
             options
                 .WithEvaluationContextVariablesProvider()
                 .WithDefaultsTokenProvider()
-                .WithCompiledEvaluator();
+                .WithCompiledEvaluator()
+                .WithSystemProvidedCulture();                
         });
         public static Function GivenFunction(string expression) => _factory.Create(expression);
     }

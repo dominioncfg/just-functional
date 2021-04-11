@@ -2,6 +2,6 @@
 {
     public interface IEvaluatorFactory
     {
-        IEvaluator CreateFor(string expression, ITokensProvider tokensProvider);
+        IEvaluator CreateFor(string expression, EvaluatorOptions evaluatorOptions);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 using Xunit;
 
 namespace JustFunctional.Core.UnitTests.Features.Functions
@@ -18,6 +16,18 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             var result = sut.Evaluate(new EvaluationContext());
 
             result.Should().Be(2);
+        }
+
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
+        public void CanEvaluateConstantNegativeFunction()
+        {
+            string func = "-2";
+            var sut = GivenFunction(func);
+
+            var result = sut.Evaluate(new EvaluationContext());
+
+            result.Should().Be(-2);
         }
 
         [Fact]
@@ -161,72 +171,15 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
 
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
-        public void CanEvaluateFunctionStartingWithNegativeNumberAtTheBegining()
-        {
-            string func = "-5+X";
-            var sut = GivenFunction(func);
-
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
-
-            result.Should().Be(3);
-        }
-
-        [Fact]
-        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
-        public void CanEvaluateFunctionWithNegativeNumberAfterOperator()
-        {
-            string func = "X*-5";
-            var sut = GivenFunction(func);
-
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
-
-            result.Should().Be(-40);
-        }
-
-        [Fact]
-        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
-        public void CanEvaluateFunctionWithMinusAfterBracket()
-        {
-            string func = "(X*2)-5";
-            var sut = GivenFunction(func);
-
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
-
-            result.Should().Be(11);
-        }
-
-
-        [Fact]
-        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
         public void CanEvaluateFunctionWithOperandWithDecimalDigits()
         {
-            string func = "(X*2)+2.1";
+            string func = $"(X*2)+{2.1}";
             var sut = GivenFunction(func);
 
             var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
 
             result.Should().Be(18.1M);
-        }
-
-        [Theory]
-        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
-        [InlineData("es-ES")]
-        [InlineData("pt-PT")]
-        [InlineData("pt-BR")]
-        [InlineData("tr-TR")]
-        [InlineData("en-US")]
-        [InlineData("en-UK")]
-        public void CanEvaluateFunctionWithOperandWithDecimalDigitsWithCulture(string culture)
-        {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
-
-            string func = "(X*2)+2.1";
-            var sut = GivenFunction(func);
-
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
-
-            result.Should().Be(18.1M);
-        }
+        }        
 
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
@@ -238,6 +191,30 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 2, ["Y"] = 3 }));
 
             result.Should().Be(5);
+        }
+
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
+        public void CanEvaluateWithConsecutiveBrackets()
+        {
+            string func = $"(X+3)*(X-2)";
+            var sut = GivenFunction(func);
+
+            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 7 }));
+
+            result.Should().Be(50);
+        }
+
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EVALUATE)]
+        public void CanEvaluateWithInnerBrackets()
+        {
+            string func = $"((X+3)*2)^2";
+            var sut = GivenFunction(func);
+
+            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
+
+            result.Should().Be(144);
         }
     }
     public class CompiledFunctionsTests : FunctionsTests

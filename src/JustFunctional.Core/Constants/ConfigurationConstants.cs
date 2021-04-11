@@ -4,19 +4,19 @@ namespace JustFunctional.Core
 {
     public static class ConfigurationConstants
     {
-        public const int MaxLengthForOperatorsAndConstants = 4;
-        public const char DecimalPlacesSeparator = '.';
+        public const int MaxLengthForOperators = 4;
 
         public static class AsString
         {
             public const string EndOfFile = "EOF";
             public const string OpeningBracket = "(";
             public const string ClosingBracket = ")";
+            public const string MinusUnary = "-1";
+            public const string PlusUnary = "*1";
             public const string Add = "+";
             public const string Substract = "-";
             public const string Multiply = "*";
             public const string Divide = "/";
-            public const string MinusUnary = "-";
             public const string Cosine = "cos";
             public const string Sine = "sin";
             public const string CommonLogarithm = "log";
@@ -31,6 +31,7 @@ namespace JustFunctional.Core
         {
             public const char Space = ' ';
             public const char MinusUnary = '-';
+            public const char PlusUnary = '+';
         }
 
         public static class Precedences
@@ -40,9 +41,13 @@ namespace JustFunctional.Core
             public const int MultiplyDivide = 2;
             public const int ExponentiationAndRoots = 3;
             public const int GeneralPurposeFunctions = 4;
+            public const int UnaryMultiply = int.MaxValue;
         }
         public static class Operators
         {
+            public static readonly Operator MinusUnary = new MinusUnaryOperator();
+            public static readonly Operator PlusUnary = new PlusUnaryOperator();
+
             public static readonly ReadOnlyCollection<Operator> IntrinsicOperators = new List<Operator>()
             {
                 new OpeningBracketOperator(), new ClosingBracketOperator(),
@@ -58,10 +63,10 @@ namespace JustFunctional.Core
         {
             public static readonly FunctionOptions CompiledDefault = new(new CompiledExpressionEvaluatorFactory(),
                                                                             new DefaultTokensProvider(),
-                                                                            null);
+                                                                            null,new CultureProvider());
             public static readonly FunctionOptions JustInTimeDefault = new(new CompiledExpressionEvaluatorFactory(),
                                                                                 new DefaultTokensProvider(),
-                                                                                null);
+                                                                                null, new CultureProvider());
         }
     }
 }

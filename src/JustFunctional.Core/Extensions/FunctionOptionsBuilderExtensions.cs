@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+
 namespace JustFunctional.Core
 {
     public static class FunctionOptionsBuilderExtensions
@@ -19,5 +21,9 @@ namespace JustFunctional.Core
             setupAction?.Invoke(tokenBuilder);
             return builder.WithTokenProvider(tokenBuilder);
         }
+
+        public static FunctionOptionsBuilder WithCulture(this FunctionOptionsBuilder builder, CultureInfo culture) => builder.WithCultureProvider(new CultureProvider(culture));
+
+        public static FunctionOptionsBuilder WithSystemProvidedCulture(this FunctionOptionsBuilder builder) => builder.WithCultureProvider(new CultureProvider());
     }
 }
