@@ -10,6 +10,7 @@
             public const string FUNCTION_EXCEPTIONS = "Exceptions";
             public const string FUNCTION_ASYNC = "Async";
             public const string FUNCTION_FACTORY = "Factory";
+            public const string FUNCTION_IDENTIFIERS = "Identifiers";
         }
 
         public static class Opertators

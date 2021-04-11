@@ -4,7 +4,7 @@ namespace JustFunctional.Core
 {
     public static class ConfigurationConstants
     {
-        public const int MaxLengthForOperatorsAndConstants = 4;
+        public const int MaxLengthForOperators = 4;
 
         public static class AsString
         {

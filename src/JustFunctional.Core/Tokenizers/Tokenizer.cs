@@ -28,13 +28,16 @@ namespace JustFunctional.Core
         }
 
         private bool MoveNext() => _expressionEnumerator.MoveNext();
+
         public void Reset() => _expressionEnumerator.Reset();
 
-        private IToken? GetNextTokenOrDefault(string token)
+        private IToken? GetRegisterdOperandOrDefault(string token)
         {
-            var result = _registeredOperators.GetOperatorOrDefault(token) ?? _registeredConstants.GetOperandOrDefault(token) ?? (_registeredVariables.GetOperandOrDefault(token) as IToken);
-            return result;
+            return _registeredConstants.GetOperandOrDefault(token) ?? (_registeredVariables.GetOperandOrDefault(token) as IToken);
         }
+
+        private IToken? GetRegisteredOperatorOrDefault(string token) => _registeredOperators.GetOperatorOrDefault(token);
+
         public IToken GetNextToken()
         {
             bool eof = true;
@@ -56,26 +59,43 @@ namespace JustFunctional.Core
                 return GetUnaryOperator(CurrentChar);
             }
 
-            if (CurrentChar.IsADigit())
+            if (CurrentChar.IsDigit())
             {
                 var operand = GetNextNumberAndMoveIterator(_expressionEnumerator, _culture);
                 _lastToken = operand;
                 return operand;
             }
 
-            int currentLookupLength = 1;
             string token = string.Empty;
+            bool isIdentifier = true;
             do
             {
+                IToken? nextToken = null;
                 token += CurrentChar.ToString();
-                var nextToken = GetNextTokenOrDefault(token);
+                bool keepLookingForOperators = token.Length <= ConfigurationConstants.MaxLengthForOperators;
+                isIdentifier = IsStillIdentifier(token, CurrentChar, isIdentifier);
+
+                if (isIdentifier)
+                {
+                    nextToken = GetRegisterdOperandOrDefault(token);
+                }
+
+                if (nextToken is null && keepLookingForOperators)
+                {
+                    nextToken = GetRegisteredOperatorOrDefault(token);
+                }
+
+                if (!isIdentifier && !keepLookingForOperators)
+                {
+                    break;
+                }
 
                 if (nextToken is null) continue;
 
                 _lastToken = nextToken;
                 return nextToken;
             }
-            while (MoveNext() && currentLookupLength < ConfigurationConstants.MaxLengthForOperatorsAndConstants);
+            while (MoveNext());
 
             throw new SyntaxErrorInExpressionException($"Syntax error after '{_lastToken?.GetValue()}', at position {_expressionEnumerator.CurrentIndex + 1}. Expected operator/operand.");
         }
@@ -108,8 +128,8 @@ namespace JustFunctional.Core
             char decimalSeparator = culture.NumberFormat.NumberDecimalSeparator[0];
             while (iterator.MoveNext())
             {
-                var current = iterator.Current;
-                if (current.IsADigit() || current == decimalSeparator)
+                char current = iterator.Current;
+                if (current.IsDigit() || current == decimalSeparator)
                 {
                     token += current.ToString();
                 }
@@ -124,6 +144,15 @@ namespace JustFunctional.Core
 
             var operand = new Operand(tokenValue);
             return operand;
+        }
+
+        private static bool IsStillIdentifier(string token, char currentChar, bool isIdentifier)
+        {
+            if (token.Length == 1)
+            {
+                return currentChar.IsIdentifierStartCharacter();
+            }
+            return isIdentifier && currentChar.IsIdentifierPartCharacter();
         }
     }
 }
