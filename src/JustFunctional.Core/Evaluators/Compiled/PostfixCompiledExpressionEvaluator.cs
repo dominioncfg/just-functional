@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 namespace JustFunctional.Core
 {
-    public class PostfixCompiledExpressionEvaluator : IEvaluator
+    public class PostfixCompiledExpressionEvaluator : ICompiledEvaluator
     {
         private List<IToken> _compiledExpression;
         private readonly PostfixExpressionEvaluator _evaluator;

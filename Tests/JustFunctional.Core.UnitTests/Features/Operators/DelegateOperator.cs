@@ -14,11 +14,11 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             var @operator = new DelegateOperator("OP", "Sum", 100, OperatorType.Binary, Associativity.Left, (List<decimal> operands) => operands.Sum());
             string func = "X Sum 3";
             var sut = CreateWithSettings(func, options => options.WithCustomTokenProvider(tokens => tokens.WithOperator(@operator)));
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 6 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 6 }));
             result.Should().Be(9);
         }
 
-        private Function CreateWithSettings(string expression, Action<FunctionOptionsBuilder> setupAction)
+        private static Function CreateWithSettings(string expression, Action<FunctionOptionsBuilder> setupAction)
         {
             var factory = FunctionFactoryBuilder.ConfigureFactory(setupAction);
             return factory.Create(expression);

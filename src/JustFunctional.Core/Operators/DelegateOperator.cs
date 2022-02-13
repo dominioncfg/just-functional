@@ -12,7 +12,7 @@ namespace JustFunctional.Core
                                 : base(name, rawToken, precedence, type, associativity)
 
         {
-            this._operation = operation;
+            _operation = operation;
         }
 
         public override decimal Calculate(List<Operand> operands, IEvaluationContext context)

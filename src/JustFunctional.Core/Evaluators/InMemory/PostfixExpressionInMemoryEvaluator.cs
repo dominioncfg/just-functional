@@ -88,6 +88,9 @@ namespace JustFunctional.Core
         {
             var resolveOperator = operators.Pop();
 
+           if (resolveOperator.IsOpeningBracket())
+               throw new MissingOperatorException($"There is a '{ConfigurationConstants.AsString.OpeningBracket}' without corresponding '{ConfigurationConstants.AsString.ClosingBracket}'");
+
             var operandsNeededToResolveOperator = DequeAndGetOperandsForOperator(operands, resolveOperator);
 
             decimal result = resolveOperator.Calculate(operandsNeededToResolveOperator, context);
@@ -110,7 +113,7 @@ namespace JustFunctional.Core
                 string tokenOperands = string.Join(',', operandsNeededToResolveOperator.Select(x => x.RawToken));
                 string errorMessage = $"Could not resolve operator '{resolveOperator.RawToken}' because he needs {neededOperandsCount} but found only {operandsNeededToResolveOperator.Count}.";
                 errorMessage += $"Operands found were: {tokenOperands}";
-                throw new MissingOperandException();
+                throw new MissingOperandException(errorMessage);
             }
             return operandsNeededToResolveOperator;
         }

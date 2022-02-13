@@ -16,7 +16,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "X+2";
             var sut = CreateWithSettings(func, option => { });
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
 
             result.Should().Be(5);
         }
@@ -28,7 +28,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "X+2";
             var sut = CreateWithSettings(func, option => option.WithPredefinedVariables("X"));
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
 
             result.Should().Be(5);
         }
@@ -59,7 +59,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
                         )
                      );
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
 
             result.Should().Be(5);
         }
@@ -78,7 +78,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
                         )
                      );
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
 
             result.Should().Be(9);
         }
@@ -148,7 +148,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
                         )
                      );
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
 
             result.Should().Be(4);
         }
@@ -177,7 +177,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
         public async Task CanEvaluateWithDifferentsCultures(string culture, string separator)
         {
             string func = $"(X*2)+2{separator}1";
-            var result = 0M;
+            decimal result = 0M;
             await Task.Run(() => {
                 CultureInfo.CurrentCulture = new CultureInfo(culture);
                 var sut = CreateWithSettings(func, options => options.WithSystemProvidedCulture());
@@ -188,7 +188,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             result.Should().Be(18.1M);
         }
 
-        private Function CreateWithSettings(string expression, Action<FunctionOptionsBuilder> setupAction)
+        private static Function CreateWithSettings(string expression, Action<FunctionOptionsBuilder> setupAction)
         {
             var factory = FunctionFactoryBuilder.ConfigureFactory(setupAction);
             return factory.Create(expression);

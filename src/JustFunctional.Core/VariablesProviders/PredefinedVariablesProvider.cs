@@ -6,7 +6,7 @@ namespace JustFunctional.Core
     {
         private readonly List<Variable> _variables;
 
-        public PredefinedVariablesProvider(IEnumerable<string> variables)
+        public PredefinedVariablesProvider(params string[] variables)
         {
             _variables = variables.Select(x => new Variable(x)).ToList();
         }

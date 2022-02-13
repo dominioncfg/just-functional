@@ -9,7 +9,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
     {
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
-        public void ThrowsExceptionWhenIncorrectFormulaAtTheEnd()
+        public void ThrowsExceptionWhenUnknownOperand()
         {
             string func = "(X*2)+adadds";
             var sut = GivenFunction(func);
@@ -34,7 +34,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
 
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
-        public void ThrowsExceptionWhenIncorrectFormulaBeforeAnotherOperator()
+        public void ThrowsExceptionWhenMissingOperand()
         {
             string func = "5+";
             var sut = GivenFunction(func);
@@ -46,7 +46,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
 
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
-        public void ThrowsExceptionWhenIncorrectFormulaBeforeAnotherOperator1()
+        public void ThrowsExceptionWhenMissingOperator()
         {
             string func = "5X";
             var sut = GivenFunction(func);
@@ -56,11 +56,24 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             act.Should().Throw<MissingOperatorException>();
         }
 
+
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
-        public void ThrowsExceptionWhenIncorrectFormulaBeforeAnotherOperator2()
+        public void ThrowsExceptionWhenMissingOpeningBracket()
         {
             string func = "4+5)";
+            var sut = GivenFunction(func);
+
+            Func<decimal> act = () => sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
+
+            act.Should().Throw<MissingOperatorException>();
+        }
+
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
+        public void ThrowsExceptionWhenMissingClosingBracket()
+        {
+            string func = "(4+5";
             var sut = GivenFunction(func);
 
             Func<decimal> act = () => sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 8 }));
