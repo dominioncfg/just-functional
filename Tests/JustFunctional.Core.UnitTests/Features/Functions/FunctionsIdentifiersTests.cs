@@ -86,7 +86,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
         }
 
 
-        private Function CreateWithSettings(string expression, Action<FunctionOptionsBuilder> setupAction)
+        private static Function CreateWithSettings(string expression, Action<FunctionOptionsBuilder> setupAction)
         {
             var factory = FunctionFactoryBuilder.ConfigureFactory(setupAction);
             return factory.Create(expression);
