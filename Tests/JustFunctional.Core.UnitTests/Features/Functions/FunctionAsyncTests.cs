@@ -15,7 +15,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "(X*4)^2";
             var sut = GivenFunction(func);
 
-            var result = await sut.EvaluateAsync(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
+            decimal result = await sut.EvaluateAsync(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 3 }));
 
             result.Should().Be(144);
         }

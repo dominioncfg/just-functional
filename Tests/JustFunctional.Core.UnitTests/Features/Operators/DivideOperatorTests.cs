@@ -12,7 +12,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "X/3";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 6 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 6 }));
 
             result.Should().Be(2);
         }
@@ -24,7 +24,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "X/3/2";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 24 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 24 }));
 
             result.Should().Be(4);
         }
@@ -36,7 +36,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "2^(X/4)";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 16 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 16 }));
 
             result.Should().Be(16);
         }
@@ -48,7 +48,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "15/(X-2)";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 7 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 7 }));
 
             result.Should().Be(3);
         }
@@ -60,7 +60,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "6-X/3";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 18 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 18 }));
 
             result.Should().Be(0);
         }
@@ -72,7 +72,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "6+X/3";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 18 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 18 }));
 
             result.Should().Be(12);
         }
@@ -84,7 +84,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "9*X/3";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 9 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 9 }));
 
             result.Should().Be(27);
         }
@@ -96,7 +96,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "24/X^3";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 2 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 2 }));
 
             result.Should().Be(3);
         }
@@ -108,7 +108,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "6/sqrt X";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 9 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 9 }));
 
             result.Should().Be(2);
         }
@@ -120,7 +120,7 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             string func = "6/cbr X";
             var sut = GivenFunction(func);
 
-            var result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 27 }));
+            decimal result = sut.Evaluate(new EvaluationContext(new Dictionary<string, decimal>() { ["X"] = 27 }));
 
             result.Should().Be(2);
         }
