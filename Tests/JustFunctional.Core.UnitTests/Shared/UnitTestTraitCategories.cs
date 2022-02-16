@@ -21,6 +21,15 @@
             public const string OPERTATORS_SUBSTRACT = "Substract";
             public const string OPERTATORS_MULTIPLY = "Multiply";
             public const string OPERTATORS_DIVIDE = "Divide";
+            public const string OPERATORS_COMMON_LOGARITHM = "Common Logarithm";
+            public const string OPERATORS_MODULE = "Module";
+            public const string OPERATORS_FACTORIAL= "Factorial";
+            public const string OPERATORS_EXPONENTIATION = "Exponentiation";
+            public const string OPERATORS_SQUARE_ROOT = "Square Root";
+            public const string OPERATORS_CUBE_ROOT = "Cube Root";
+            public const string OPERATORS_NATURAL_LOGARITHM = "Natural Logarithm";
+            public const string OPERATORS_SINE = "Sine";
+            public const string OPERATORS_COSINE = "Cosine";
         }
 
         public static class SeedWork
