@@ -9,6 +9,15 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
     {
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
+        public void ThrowsExceptionWhenExpressionIsEmpty()
+        {
+            string func = "";
+            Func<Function> act = () => GivenFunction(func);           
+
+            act.Should().Throw<ExpressionIsNullOrEmptyException>();
+        }
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
         public void ThrowsExceptionWhenUnknownOperand()
         {
             string func = "(X*2)+adadds";
@@ -18,7 +27,6 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
 
             act.Should().Throw<SyntaxErrorInExpressionException>();
         }
-
 
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
@@ -56,7 +64,6 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
             act.Should().Throw<MissingOperatorException>();
         }
 
-
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_EXCEPTIONS)]
         public void ThrowsExceptionWhenMissingOpeningBracket()
@@ -92,7 +99,6 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
 
             act.Should().Throw<SyntaxErrorInExpressionException>();
         }
-
        
     }
     public class CompiledFunctionsExceptionTests : FunctionsExceptionTests

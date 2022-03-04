@@ -46,6 +46,21 @@ namespace JustFunctional.Core.UnitTests.Features.Functions
 
         [Fact]
         [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_FACTORY_TRY_CREATE)]
+        public void Can_Create_Returns_Invalid_Function_When_Empty()
+        {
+            string func = "";
+            var sut = CreateWithSettings(option => option.WithVariablesProvider(new PredefinedVariablesProvider("X")));
+
+            var result = sut.TryCreate(func);
+            result.Should().NotBeNull();
+
+            result.Success.Should().BeFalse();
+            result.Errors.Should().NotBeEmpty();
+            result.Function.Should().BeNull();
+        }
+
+        [Fact]
+        [Trait(UnitTestTraitCategories.Function.CATEGORY_NAME, UnitTestTraitCategories.Function.FUNCTION_FACTORY_TRY_CREATE)]
         public void Can_Create_Returns_Invalid_Function_When_Missing_Operand()
         {
             string func = "X+2+";

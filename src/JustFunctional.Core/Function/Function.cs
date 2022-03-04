@@ -11,6 +11,9 @@ namespace JustFunctional.Core
 
         public Function(string expression, FunctionOptions options)
         {
+            if (string.IsNullOrEmpty(expression))
+                throw new ExpressionIsNullOrEmptyException("Expression can't be empty");
+
             var useTokensProvider = options.TokensProvider;
             Expression = expression;
             _variablesProvider = options.VariablesProvider;
